@@ -9,7 +9,40 @@ export default class Videotron extends Component {
     super(props);
     this.state = {
       open: false,
-      style: ""
+      style: "",
+      count: 0,
+      data: [
+        {
+          "title" :'Calon Bupati',
+          "total" :'132',
+          "hadir" :'12'
+        },
+        {
+          "title" :'Calon Walikota',
+          "total" :'153',
+          "hadir" :'23'
+        },
+        {
+          "title" :'Calon Istri',
+          "total" :'100',
+          "hadir" :'0'
+        },
+        {
+          "title" :'Calon Raja Sunda Empayer',
+          "total" :'321',
+          "hadir" :'23'
+        },
+        {
+          "title" :'Calon Calonan',
+          "total" :'721',
+          "hadir" :'21'
+        },
+        {
+          "title" :'Calon Presiden MieMiekarta',
+          "total" :'238',
+          "hadir" :'212'
+        },
+      ]
     }
   }
 
@@ -19,11 +52,23 @@ export default class Videotron extends Component {
           <div className="first-container">
             <div className="first">
               <div className="information-container">
-                  <p></p>
+                <div className="big-title">
+                  <h3 className="">KEHADIRAN</h3>
+                </div>
+                <div className="body-information">
+                  {this.state.data.map(item=>(
+                      <div className="counter-container">
+                        <p className="title-counter">{item.title}</p>
+                        <p className="counter">{item.hadir} / {item.total}</p>
+                      </div>
+                  ))}
+                </div>
               </div>
               <div className="controller">
-                <button style={{width:40, margin:4}} onClick={()=> this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})}>In</button>
-                <button style={{width:40}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
+                <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})}>In</button>
+                <button style={{width:60}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
+                <button style={{width:60, margin:4}} onClick={()=> this.setState({count : this.state.count+1})}>Up</button>
+                <button style={{width:60}} onClick={()=> this.setState({count : this.state.count-1})}>Down</button>
               </div>
             </div>
             <div className="second">
@@ -42,7 +87,6 @@ export default class Videotron extends Component {
               <div className="logo__partai">
                   <img src={Logo} alt="This is a logo" style={{width:300}}/>
               </div>
-              <p>TITLE HERE</p>
               <div className="trivurat">
                   <img src={Trivurat} alt="This is a logo" style={{width:300}}/>
               </div>

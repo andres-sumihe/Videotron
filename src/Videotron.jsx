@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Bg from './assets/BG1.png'
 import Logo from './assets/PARTAI.png'
 import Trivurat from './assets/trivurat.png'
 
@@ -11,7 +10,11 @@ export default class Videotron extends Component {
       open: false,
       style: "",
       count: 0,
+      fontSizeHeader: 12,
+      fontSizeCounter: 22,
+      heightBackground: 80,
       styleSetting: false, 
+
       data: [
         {
           "title" :'Calon Bupati',
@@ -49,18 +52,18 @@ export default class Videotron extends Component {
 
   render() {
     return (
-      <div className="container"> 
+      <div className="container" style={{height: this.state.heightBackground+"vh" }}> 
           <div className="first-container">
             <div className="first">
-              <div className="information-container">
+              <div className="information-container" style={{maxHeight: this.state.heightBackground+"vh" }}>
                 <div className="big-title">
                   <h3 className="">KEHADIRAN</h3>
                 </div>
                 <div className="body-information">
                   {this.state.data.map(item=>(
-                      <div className="counter-container">
-                        <p className="title-counter">{item.title}</p>
-                        <p className="counter">{item.hadir} / {item.total}</p>
+                      <div className="counter-container" key={item.id}>
+                        <p className="title-counter" style={{fontSize: this.state.fontSizeHeader}}>{item.title}</p>
+                        <p className="counter" style={{fontSize: this.state.fontSizeCounter}}>{item.hadir} / {item.total}</p>
                       </div>
                   ))}
                 </div>
@@ -68,8 +71,6 @@ export default class Videotron extends Component {
               <div className="controller">
                 <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})}>In</button>
                 <button style={{width:60}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
-                <button style={{width:60, margin:4}} onClick={()=> this.setState({count : this.state.count+1})}>Up</button>
-                <button style={{width:60}} onClick={()=> this.setState({count : this.state.count-1})}>Down</button>
               </div>
             </div>
             <div className="second">
@@ -92,9 +93,29 @@ export default class Videotron extends Component {
                   <img src={Trivurat} alt="This is a logo" style={{width:300}}/>
               </div>
           </div>
-          {this.state.styleSetting? <div className="style-panel">
-              <p>TEST</p>
-          </div>:''}
+          {this.state.styleSetting? 
+              <div className="style-panel animated slide-in-right">
+                <h2>SETTINGS</h2>
+                  <div className="setting-container">
+                    <p>FontSize Header</p>
+                    <button onClick={()=> this.setState({fontSizeHeader: this.state.fontSizeHeader-1})}>-</button>
+                      <p>{this.state.fontSizeHeader}</p>
+                    <button onClick={()=> this.setState({fontSizeHeader: this.state.fontSizeHeader+1})}>+</button>
+                  </div>
+                  <div className="setting-container">
+                    <p>FontSize Counter</p>
+                    <button onClick={()=> this.setState({fontSizeCounter: this.state.fontSizeCounter-1})}>-</button>
+                      <p>{this.state.fontSizeCounter}</p>
+                    <button onClick={()=> this.setState({fontSizeCounter: this.state.fontSizeCounter+1})}>+</button>
+                  </div>
+                  <div className="setting-container">
+                    <p>height Background</p>
+                    <button onClick={()=> this.setState({heightBackground: this.state.heightBackground-1})}>-</button>
+                      <p>{this.state.heightBackground}vh</p>
+                    <button onClick={()=> this.setState({heightBackground: this.state.heightBackground+1})}>+</button>
+                  </div>
+              </div>
+          :''}
           <div className="style-button">
               <a href="#" onClick={()=>this.setState({styleSetting: !this.state.styleSetting})}>
                 <i className="icon-settings"></i>

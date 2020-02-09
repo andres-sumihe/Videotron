@@ -11,6 +11,7 @@ export default class Videotron extends Component {
       open: false,
       style: "",
       count: 0,
+      styleSetting: false, 
       data: [
         {
           "title" :'Calon Bupati',
@@ -90,6 +91,14 @@ export default class Videotron extends Component {
               <div className="trivurat">
                   <img src={Trivurat} alt="This is a logo" style={{width:300}}/>
               </div>
+          </div>
+          {this.state.styleSetting? <div className="style-panel">
+              <p>TEST</p>
+          </div>:''}
+          <div className="style-button">
+              <a href="#" onClick={()=>this.setState({styleSetting: !this.state.styleSetting})}>
+                <i className="icon-settings"></i>
+              </a>
           </div>
       </div>
     );

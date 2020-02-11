@@ -13,8 +13,7 @@ export default class Videotron extends Component {
       fontSizeHeader: 12,
       fontSizeCounter: 22,
       heightBackground: 80,
-      styleSetting: false, 
-
+      styleSetting: false,
       data: [
         {
           "title" :'Calon Bupati',
@@ -73,7 +72,7 @@ export default class Videotron extends Component {
                 <button style={{width:60}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
               </div>
             </div>
-            <div className="second">
+            <div className="second" style={{height: this.state.heightBackground+"vh"}}>
             {this.state.open? 
 
               <div className={this.state.style}>
@@ -85,7 +84,7 @@ export default class Videotron extends Component {
             :''}
             </div>
           </div>
-          <div className="second-container">
+          <div className="second-container" style={{height: this.state.heightBackground+"vh"}}>
               <div className="logo__partai">
                   <img src={Logo} alt="This is a logo" style={{width:300}}/>
               </div>

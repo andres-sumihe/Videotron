@@ -34,15 +34,15 @@
 .information-container {
     display:flex;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 220px;
     min-height: 200px;
-    max-width: 200px;
+    max-width: 220px;
     max-height: 80vh;
-    margin-right: 20px;
+    margin-left: 20px;
     z-index: 99999;
     float: left;
     align-items: center;
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
     background-color: lightgray;
     /* box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.9); */
     border-radius: 3px;
@@ -59,7 +59,7 @@
 }
 .counter-container {
     width: 180px;
-    background-color: #e53935;
+    background-color: #b71c1c;
     margin: 5px;
     border-radius: 5px;
 }
@@ -94,7 +94,7 @@
 }
 .controller{
     position: absolute;
-    bottom: 20vh;
+    bottom: 5vh;
     
 }
 .second {

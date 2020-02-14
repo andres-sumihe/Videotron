@@ -110,17 +110,10 @@ export default class Videotron extends Component {
     const {activityID, sessionID} = this.state;
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    // myHeaders.append("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEYXRhR2VuZXJhbHMiLCJzdWIiOiJwZDFkNzA5OWIxNTNlMGQwNjQ3Njc0ODBkZjc1NjgwMCIsImlhdCI6MTU4MTcwMjQ3OCwiZXhwIjoxNTgxNzA0NDAyLCJ1c2VyIjp7InVzZXJJRCI6InBkMWQ3MDk5YjE1M2UwZDA2NDc2NzQ4MGRmNzU2ODAwIiwib2ZmaWNlSUQiOm51bGwsImNhZHJlSUQiOm51bGwsIm5hbWUiOiJQYW5pdGlhIDEiLCJwaG90byI6bnVsbCwic2VjcmV0IjoiJDJ5JDEwJEZPWnJ3S3RNbFVCZFd3YnhpdGRncmVFdTJvdzY1M3dcLzE4VE5SbXN1czZ3ZXVxdzlBQllsVyIsImxldmVsIjoiT3BlcmF0b3IifSwic2VjcmV0IjoiZDc0NWNjYjQ1ZTA1OTBhMmZlYWRhOGMxY2MyNDRjNDcifQ.dwYHkExAiRpRZKP7F6M4plv7ryxyOmKMBg41HM6Tztw");
-
     var raw = `body={"activityID":"${activityID}","sessionID":"${sessionID}"}`
-    // var raw = `body={"activityID":"193592bd386f2a8acb195841cfd201a0","sessionID":"193592bd386f2a8acb195841cfd201a0"}`
-    // var raw = JSON.stringify({"activityID":"193592bd386f2a8acb195841cfd201a0","sessionID":"193592bd386f2a8acb195841cfd201a0"});
-
     var requestOptions = {
       method: 'GET',
       headers: myHeaders,
-      // param: 
-      // body: raw,
       redirect: 'follow'
     };
 
@@ -136,15 +129,6 @@ export default class Videotron extends Component {
       .catch(error => console.log('error', error));
 
       console.log(this.state.data)
-      
-    // const url = "http://events.pantimarhaen.id:8001/presences/summary" 
-    // fetch(url).then((res)=> res.json())
-    //     .then((resJson)=>{  
-    //       console.log(resJson)
-    //     }).catch(err => {
-    //       console.log(err)
-    //     })
-    //https://events.pantimarhaen.id:8001/presences
     event.preventDefault();
   }
 
@@ -178,10 +162,10 @@ export default class Videotron extends Component {
             <div className="second" style={{height: this.state.heightBackground+"vh"}}>
             
             </div>
-            <div className="second" style={{height: this.state.heightBackground+"vh"}}>
+            <div className="second" style={{height: this.state.heightBackground+"vh",flex:2}}>
                 {this.state.open? 
                 
-                <div className={this.state.style} style={{alignItems:'center',textAlign:'center', width:'100%', display:"flex", justifyContent:'center', flexDirection:'column'}}>
+                <div className={this.state.style} style={{alignItems:'center',textAlign:'center', width:'100%', display:"flex", justifyContent:'center', flexDirection:'column', }}>
                   <div className="container-foto ">
                     <div className="container-foto-img">
                       <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>

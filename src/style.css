@@ -36,9 +36,9 @@
     flex-direction: column;
     min-width: 300px;
     min-height: 200px;
-    max-width: 500px;
+    max-width: 200px;
     max-height: 80vh;
-    margin: 0;
+    margin-right: 20px;
     z-index: 99999;
     float: left;
     align-items: center;

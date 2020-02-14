@@ -5,6 +5,7 @@
     background-image: url('./assets/BG1.png');
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
     display: flex;
     flex: 1;
     justify-content: center;
@@ -38,6 +39,7 @@
     max-width: 500px;
     max-height: 80vh;
     margin: 0;
+    z-index: 99999;
     float: left;
     align-items: center;
     justify-content: flex-start;

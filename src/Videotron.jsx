@@ -27,18 +27,17 @@ export default class Videotron extends Component {
       styleSetting: false,
       background:'./assets/BG1.png',
       photo: '',
-      uri:'',
-      nama:'NAMA',
+      uri:'http://kader.pantimarhaen.id:8001/cadres/default.jpg',
+      nama:'NAMA SAYA ADALAH SUPERMAN YANG HEBAT',
       dataPhoto: [],
       data: [
-        {"title":"a", "participants":"4", "precsences":"4"}
+        {"title":"Title", "participants":"1", "precsences":"192"}
       ],
       temporary: [],
       name:[],
+      hide: true,
+      
     }
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // setInterval(this.gah(), 6000)
   }
 
   gah = async () => {
@@ -63,9 +62,7 @@ export default class Videotron extends Component {
     this.setState({photo: `url(${reset})`})
   }
   componentDidMount = () => {
-    
-    // this.handleManyData()
-    console.log("TEST", this.state.activityID, this.state.sessionID)
+    this.changeImage()
     socket.on("summary-"+this.state.activityID+"-"+this.state.sessionID, (res)=> {
         console.log("Hello",res)
         this.setState({data: res})
@@ -73,7 +70,7 @@ export default class Videotron extends Component {
     socket.on("checkin", (res) => {
         console.log("Check-in",res)
         const {temporary, name} = this.state
-        temporary.push('http://kader.pantimarhaen.id:8001/cadres/'+res.photo)
+        temporary.push('http://kader.pantimarhaen.id:8001/cadres/'+ (res.photo === null || res.photo === "" ? 'default.jpg':res.photo) )
         name.push(res.name)
         console.log(res.photo, res.name)
         console.log(this.state.uri)
@@ -91,17 +88,6 @@ export default class Videotron extends Component {
   componentWillUnmount() {
     socket.off();
    }
-
-  //  trimScoket = (data) =>{
-  //    const job = queqe.create('display', data)
-  //    job.on('failed', err =>{
-  //      console.log(err)
-  //    })
-  //    job.on('complete', result => {
-  //      console.log(result)
-  //    })
-  //    job.save()
-  //  }
   state = { selectedFile: null }
   imageUpload = (e) => {
     const file = e.target.files[0];
@@ -121,51 +107,90 @@ export default class Videotron extends Component {
     this.setState({activityID: event.target.value});
   }
   handleSubmit = (event)=> {
+    const {activityID, sessionID} = this.state;
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    // myHeaders.append("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEYXRhR2VuZXJhbHMiLCJzdWIiOiJwZDFkNzA5OWIxNTNlMGQwNjQ3Njc0ODBkZjc1NjgwMCIsImlhdCI6MTU4MTcwMjQ3OCwiZXhwIjoxNTgxNzA0NDAyLCJ1c2VyIjp7InVzZXJJRCI6InBkMWQ3MDk5YjE1M2UwZDA2NDc2NzQ4MGRmNzU2ODAwIiwib2ZmaWNlSUQiOm51bGwsImNhZHJlSUQiOm51bGwsIm5hbWUiOiJQYW5pdGlhIDEiLCJwaG90byI6bnVsbCwic2VjcmV0IjoiJDJ5JDEwJEZPWnJ3S3RNbFVCZFd3YnhpdGRncmVFdTJvdzY1M3dcLzE4VE5SbXN1czZ3ZXVxdzlBQllsVyIsImxldmVsIjoiT3BlcmF0b3IifSwic2VjcmV0IjoiZDc0NWNjYjQ1ZTA1OTBhMmZlYWRhOGMxY2MyNDRjNDcifQ.dwYHkExAiRpRZKP7F6M4plv7ryxyOmKMBg41HM6Tztw");
 
-    alert('TEST' + this.state.activityID +  this.state.sessionID);
+    var raw = `body={"activityID":"${activityID}","sessionID":"${sessionID}"}`
+    // var raw = `body={"activityID":"193592bd386f2a8acb195841cfd201a0","sessionID":"193592bd386f2a8acb195841cfd201a0"}`
+    // var raw = JSON.stringify({"activityID":"193592bd386f2a8acb195841cfd201a0","sessionID":"193592bd386f2a8acb195841cfd201a0"});
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      // param: 
+      // body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://events.pantimarhaen.id:8001/presences/summary?"+raw, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        const temp = JSON.parse(result)
+        console.log(temp.data.summary)
+        this.setState({data: temp.data.summary})
+      })
+        // console.log(result))
+      // .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+      console.log(this.state.data)
+      
+    // const url = "http://events.pantimarhaen.id:8001/presences/summary" 
+    // fetch(url).then((res)=> res.json())
+    //     .then((resJson)=>{  
+    //       console.log(resJson)
+    //     }).catch(err => {
+    //       console.log(err)
+    //     })
+    //https://events.pantimarhaen.id:8001/presences
     event.preventDefault();
   }
 
   render() {
-    
- 
     return (
-      <div className="container" style={{height: this.state.heightBackground+"vh", backgroundImage:this.state.photo }}> 
+      <div className="container" style={{height: this.state.heightBackground+"vh" }}> 
+          {/* <img src={BG} alt="" style={{position:'absolute',top:0, left:0, width:"100vw", height: this.state.heightBackground+"vh"}}/> */}
           <div className="first-container">
             <div className="first">
-              <div className="information-container" style={{maxHeight: this.state.heightBackground+"vh" }}>
-                <div className="big-title">
-                  <h3 className="">KEHADIRAN</h3>
+
+              {this.state.hide ? 
+                <div className="information-container" style={{maxHeight: this.state.heightBackground+"vh" }}>
+                  <div className="big-title">
+                    <h3 className="">KEHADIRAN</h3>
+                  </div>
+                  <div className="body-information">
+                    {this.state.data.map((item,i)=>(
+                        <div className="counter-container" key={i}>
+                          <p className="title-counter" style={{fontSize: this.state.fontSizeHeader}}>{item.title}</p>
+                          <p className="counter" style={{fontSize: this.state.fontSizeCounter}}>{item.precsences} / {item.participants} </p>
+                        </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="body-information">
-                  {this.state.data.map((item)=>(
-                      <div className="counter-container" key={item.id}>
-                        <p className="title-counter" style={{fontSize: this.state.fontSizeHeader}}>{item.title}</p>
-                        <p className="counter" style={{fontSize: this.state.fontSizeCounter}}>{item.precsences} / {item.participants} </p>
-                      </div>
-                  ))}
-                </div>
-              </div>
-              {/* <div className="controller">
+              :''}
+              <div className="controller">
                 <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"animated slide-in-elliptic-top-fwd"})}>In</button>
                 <button style={{width:60}} onClick={()=> this.setState({style:"animated roll-out-bottom"})}>Out</button>
-              </div> */}
+              </div>
             </div>
             <div className="second" style={{height: this.state.heightBackground+"vh"}}>
-            {this.state.open? 
             
-            <div className={this.state.style} style={{textAlign:'center'}}>
-              <div className="container-foto ">
-                <div className="container-foto-img">
-                  <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
+            </div>
+            <div className="second" style={{height: this.state.heightBackground+"vh"}}>
+                {this.state.open? 
+                
+                <div className={this.state.style} style={{alignItems:'center',textAlign:'center', width:'100%', display:"flex", justifyContent:'center', flexDirection:'column'}}>
+                  <div className="container-foto ">
+                    <div className="container-foto-img">
+                      <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
+                    </div>
+                  </div>
+                      <p style={{fontSize:12, color:"white", bottom:-15}}>{this.state.nama}</p>
                 </div>
-              </div>
-                  <p style={{fontSize:10, color:"white", bottom:-15}}>{this.state.nama}</p>
-            </div>
-              
-            :''}
-            </div>
-            <div className="second">
+                  
+                :''}
             </div>
           </div>
           {this.state.styleSetting? 
@@ -205,6 +230,9 @@ export default class Videotron extends Component {
                     <button onClick={()=> this.setState({heightBackground: this.state.heightBackground-1})}>-</button>
                       <p>{this.state.heightBackground}vh</p>
                     <button onClick={()=> this.setState({heightBackground: this.state.heightBackground+1})}>+</button>
+                  </div>
+                  <div className="setting-container">
+                    <button onClick={()=> this.setState({hide: !this.state.hide})}>{this.state.hide ? 'Sembunyikan Panel Kehadiran': 'Tampilkan Panel Kehadiran'}</button>
                   </div>
                   <div className="setting-container">
                         <input type="file" onChange={this.imageUpload} />

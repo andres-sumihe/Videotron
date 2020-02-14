@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import Logo from './assets/PARTAI.png'
-import Trivurat from './assets/trivurat.png'
-
-
+import io from 'socket.io-client';
+import BG from './assets/BG1.png';
+// import kue from 'kue'
+const socket = io('http://pantimarhaen.id:7072', {transports: ['websocket']})
+// const queqe = kue.createQueue()
+const getBase64 = (file) => {
+  return new Promise((resolve,reject) => {
+     const reader = new FileReader();
+     reader.onload = () => resolve(reader.result);
+     reader.onerror = error => reject(error);
+     reader.readAsDataURL(file);
+  });
+}
 export default class Videotron extends Component {
   constructor(props){
     super(props);
@@ -13,45 +22,116 @@ export default class Videotron extends Component {
       fontSizeHeader: 12,
       fontSizeCounter: 22,
       heightBackground: 80,
+      activityID: '193592bd386f2a8acb195841cfd201a0',
+      sessionID:'193592bd386f2a8acb195841cfd201a0',
       styleSetting: false,
+      background:'./assets/BG1.png',
+      photo: '',
+      uri:'',
+      nama:'',
+      dataPhoto: [],
       data: [
-        {
-          "title" :'Calon Bupati',
-          "total" :'132',
-          "hadir" :'12'
-        },
-        {
-          "title" :'Calon Walikota',
-          "total" :'153',
-          "hadir" :'23'
-        },
-        {
-          "title" :'Calon Istri',
-          "total" :'100',
-          "hadir" :'0'
-        },
-        {
-          "title" :'Calon Raja Sunda Empayer',
-          "total" :'321',
-          "hadir" :'23'
-        },
-        {
-          "title" :'Calon Calonan',
-          "total" :'721',
-          "hadir" :'21'
-        },
-        {
-          "title" :'Calon Presiden MieMiekarta',
-          "total" :'238',
-          "hadir" :'212'
-        },
-      ]
+        {"title":"a", "participants":"4", "precsences":"4"}
+      ],
+      temporary: [],
+      name:[],
     }
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // setInterval(this.gah(), 6000)
+  }
+
+  gah = async () => {
+    console.log('gah')
+    const {temporary,name} = this.state
+    if(temporary.length>0){
+      this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})
+      this.setState({uri: temporary.shift(), nama: name.shift()})
+      await setTimeout(()=>{
+      this.setState({style:"container-foto animated roll-out-bottom"})
+      },6000)
+      this.setState({temporary})
+      console.log(temporary.length)
+    }
+
+  }
+
+  onReset = () => {
+    localStorage["background"] = BG;
+    const reset =  localStorage.getItem("background")
+    this.setState({photo: `url(${reset})`})
+  }
+  componentDidMount = () => {
+    
+    // this.handleManyData()
+    console.log("TEST", this.state.activityID, this.state.sessionID)
+    socket.on("summary-"+this.state.activityID+"-"+this.state.sessionID, (res)=> {
+        console.log("Hello",res)
+        this.setState({data: res})
+    })
+    socket.on("checkin", (res) => {
+        console.log("Check-in",res)
+        const {temporary, name} = this.state
+        temporary.push('http://kader.pantimarhaen.id:8001/cadres/'+res.photo)
+        name.push(res.name)
+        console.log(res.photo, res.name)
+        console.log(this.state.uri)
+        console.log(this.state.temporary)
+        setInterval(
+              ()=>this.gah()
+              ,6000)
+    })
+    socket.on("connect", () => {
+        console.log("Connection Success")
+    })
+    
+  }
+
+  handleManyData = () => {
+    
+  }
+  componentWillUnmount() {
+    socket.off();
+   }
+
+  //  trimScoket = (data) =>{
+  //    const job = queqe.create('display', data)
+  //    job.on('failed', err =>{
+  //      console.log(err)
+  //    })
+  //    job.on('complete', result => {
+  //      console.log(result)
+  //    })
+  //    job.save()
+  //  }
+  state = { selectedFile: null }
+  imageUpload = (e) => {
+    const file = e.target.files[0];
+    getBase64(file).then(base64 => {
+      localStorage["background"] = base64;
+      console.log("file stored",base64);
+    });
+  };
+  changeImage = () => {
+    const imageData =  localStorage.getItem("background")
+    this.setState({photo: `url(${imageData})`})
+  }
+  handleSessionID = (event) => {
+    this.setState({sessionID: event.target.value});
+  }
+  handleActivityID = (event) => {
+    this.setState({activityID: event.target.value});
+  }
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
   }
 
   render() {
+    
+ 
     return (
-      <div className="container" style={{height: this.state.heightBackground+"vh" }}> 
+      <div className="container" style={{height: this.state.heightBackground+"vh", backgroundImage:this.state.photo }}> 
           <div className="first-container">
             <div className="first">
               <div className="information-container" style={{maxHeight: this.state.heightBackground+"vh" }}>
@@ -59,42 +139,56 @@ export default class Videotron extends Component {
                   <h3 className="">KEHADIRAN</h3>
                 </div>
                 <div className="body-information">
-                  {this.state.data.map(item=>(
+                  {this.state.data.map((item)=>(
                       <div className="counter-container" key={item.id}>
                         <p className="title-counter" style={{fontSize: this.state.fontSizeHeader}}>{item.title}</p>
-                        <p className="counter" style={{fontSize: this.state.fontSizeCounter}}>{item.hadir} / {item.total}</p>
+                        <p className="counter" style={{fontSize: this.state.fontSizeCounter}}>{item.precsences} / {item.participants} </p>
                       </div>
                   ))}
                 </div>
               </div>
-              <div className="controller">
+              {/* <div className="controller">
                 <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})}>In</button>
                 <button style={{width:60}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
-              </div>
+              </div> */}
             </div>
             <div className="second" style={{height: this.state.heightBackground+"vh"}}>
             {this.state.open? 
 
               <div className={this.state.style}>
                 <div className="container-foto-img">
-                  <img src="https://notagamer.net/wp-content/uploads/2020/01/image-316.png" alt="TEST" style={{width:'13vw', height:'18vw'}}/>
+                  <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
+                </div>
+                <div style={{position:'absolute', bottom:-20}}>
+                  <p style={{fontSize:10, color:"white"}}>{this.state.nama}</p>
                 </div>
               </div>
               
             :''}
             </div>
-          </div>
-          <div className="second-container" style={{height: this.state.heightBackground+"vh"}}>
-              <div className="logo__partai">
-                  <img src={Logo} alt="This is a logo" style={{width:300}}/>
-              </div>
-              <div className="trivurat">
-                  <img src={Trivurat} alt="This is a logo" style={{width:300}}/>
-              </div>
+            <div className="second">
+            </div>
           </div>
           {this.state.styleSetting? 
               <div className="style-panel animated slide-in-right">
                 <h2>SETTINGS</h2>
+                  <div className="setting-container" style={{height:"20vh"}}>
+                  <form onSubmit={this.handleSubmit}>
+                    <label>
+                      sessionID:&nbsp;&nbsp;
+                      <input type="text" value={this.state.sessionID} onChange={this.handleSessionID} />
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                      activityID:&nbsp;&nbsp;
+                      <input type="text" value={this.state.activityID} onChange={this.handleActivityID} />
+                    </label>
+                    <br />
+                    <br />
+                    <input type="submit" value="Submit" style={{float:'right'}} />
+                  </form>
+                  </div>
                   <div className="setting-container">
                     <p>FontSize Header</p>
                     <button onClick={()=> this.setState({fontSizeHeader: this.state.fontSizeHeader-1})}>-</button>
@@ -112,6 +206,11 @@ export default class Videotron extends Component {
                     <button onClick={()=> this.setState({heightBackground: this.state.heightBackground-1})}>-</button>
                       <p>{this.state.heightBackground}vh</p>
                     <button onClick={()=> this.setState({heightBackground: this.state.heightBackground+1})}>+</button>
+                  </div>
+                  <div className="setting-container">
+                        <input type="file" onChange={this.imageUpload} />
+                        <button onClick={this.changeImage}>Upload!</button>
+                        <button onClick={this.onReset}>Reset</button>
                   </div>
               </div>
           :''}

@@ -1,10 +1,10 @@
 .container {
     min-width: 100vw;
     height: 80vh;
-    background-color: aqua;
     overflow: hidden;
     background-image: url('./assets/BG1.png');
-    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     flex: 1;
     justify-content: center;
@@ -41,8 +41,8 @@
     float: left;
     align-items: center;
     justify-content: flex-start;
-    background-color: #460000;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.9);
+    background-color: lightgray;
+    /* box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.9); */
     border-radius: 3px;
     
 }
@@ -57,7 +57,7 @@
 }
 .counter-container {
     width: 180px;
-    background-color: lightcyan;
+    background-color: #e53935;
     margin: 5px;
     border-radius: 5px;
 }
@@ -66,11 +66,13 @@
     margin: 0;
     text-align: center;
     font-weight: 700;
+    color: white
 }
 .counter {
     font-size: 22px;
     margin: 0;
-    text-align: center;   
+    text-align: center;
+    color: white   
 }
 
 .big-title {
@@ -78,12 +80,12 @@
     border-radius: 10px;
     margin-top: -20px;
     margin-left: 20px;
-    padding: 5px;
+    padding: 10px;
     /* position: absolute; */
     align-self: flex-start;
     text-align: center;
-    background-color: cyan;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+    background-color: #fdd835;
+    /* box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); */
 }
 .big-title > h3 {
     margin: 0;
@@ -116,6 +118,7 @@
     width: 13vw;
     height: 18vw;
     object-fit:fill;
+    overflow: hidden;
 }
 .container-foto {
     height: 18vw;

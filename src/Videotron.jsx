@@ -28,7 +28,7 @@ export default class Videotron extends Component {
       background:'./assets/BG1.png',
       photo: '',
       uri:'',
-      nama:'',
+      nama:'NAMA',
       dataPhoto: [],
       data: [
         {"title":"a", "participants":"4", "precsences":"4"}
@@ -47,10 +47,11 @@ export default class Videotron extends Component {
     if(temporary.length>0){
       this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})
       this.setState({uri: temporary.shift(), nama: name.shift()})
-      await setTimeout(()=>{
+      setTimeout(()=>{
       this.setState({style:"container-foto animated roll-out-bottom"})
       },6000)
       this.setState({temporary})
+      this.setState({name})
       console.log(temporary.length)
     }
 
@@ -87,9 +88,6 @@ export default class Videotron extends Component {
     
   }
 
-  handleManyData = () => {
-    
-  }
   componentWillUnmount() {
     socket.off();
    }
@@ -122,8 +120,9 @@ export default class Videotron extends Component {
   handleActivityID = (event) => {
     this.setState({activityID: event.target.value});
   }
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+  handleSubmit = (event)=> {
+
+    alert('TEST' + this.state.activityID +  this.state.sessionID);
     event.preventDefault();
   }
 
@@ -148,21 +147,21 @@ export default class Videotron extends Component {
                 </div>
               </div>
               {/* <div className="controller">
-                <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})}>In</button>
-                <button style={{width:60}} onClick={()=> this.setState({style:"container-foto animated roll-out-bottom"})}>Out</button>
+                <button style={{width:60, margin:4}} onClick={()=> this.setState({open: true, style:"animated slide-in-elliptic-top-fwd"})}>In</button>
+                <button style={{width:60}} onClick={()=> this.setState({style:"animated roll-out-bottom"})}>Out</button>
               </div> */}
             </div>
             <div className="second" style={{height: this.state.heightBackground+"vh"}}>
             {this.state.open? 
-
-              <div className={this.state.style}>
+            
+            <div className={this.state.style} style={{textAlign:'center'}}>
+              <div className="container-foto ">
                 <div className="container-foto-img">
                   <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
                 </div>
-                <div style={{position:'absolute', bottom:-20}}>
-                  <p style={{fontSize:10, color:"white"}}>{this.state.nama}</p>
-                </div>
               </div>
+                  <p style={{fontSize:10, color:"white", bottom:-15}}>{this.state.nama}</p>
+            </div>
               
             :''}
             </div>

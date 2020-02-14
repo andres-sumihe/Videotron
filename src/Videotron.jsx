@@ -44,8 +44,8 @@ export default class Videotron extends Component {
     console.log('gah')
     const {temporary,name} = this.state
     if(temporary.length>0){
-      this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})
       this.setState({uri: temporary.shift(), nama: name.shift()})
+      this.setState({open: true, style:"container-foto animated slide-in-elliptic-top-fwd"})
       setTimeout(()=>{
       this.setState({style:"container-foto animated roll-out-bottom"})
       },4000)

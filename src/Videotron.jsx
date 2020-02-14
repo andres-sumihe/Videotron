@@ -28,14 +28,14 @@ export default class Videotron extends Component {
       background:'./assets/BG1.png',
       photo: '',
       uri:'http://kader.pantimarhaen.id:8001/cadres/default.jpg',
-      nama:'NAMA SAYA ADALAH SUPERMAN YANG HEBAT',
+      nama:'',
       dataPhoto: [],
       data: [
         {"title":"Title", "participants":"1", "precsences":"192"}
       ],
       temporary: [],
       name:[],
-      hide: true,
+      hide: false,
       
     }
   }
@@ -187,7 +187,10 @@ export default class Videotron extends Component {
                       <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
                     </div>
                   </div>
-                      <p style={{fontSize:12, color:"white", bottom:-15}}>{this.state.nama}</p>
+                  <div className="name-container">
+                      <p style={{fontSize:12,  bottom:-15}}>{this.state.nama}</p>
+
+                  </div>
                 </div>
                   
                 :''}

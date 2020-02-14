@@ -28,7 +28,7 @@ export default class Videotron extends Component {
       background:'./assets/BG1.png',
       photo: '',
       uri:'http://kader.pantimarhaen.id:8001/cadres/default.jpg',
-      nama:'',
+      nama:'Nama',
       dataPhoto: [],
       data: [
         {"title":"Title", "participants":"1", "precsences":"192"}

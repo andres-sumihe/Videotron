@@ -48,7 +48,7 @@ export default class Videotron extends Component {
       this.setState({uri: temporary.shift(), nama: name.shift()})
       setTimeout(()=>{
       this.setState({style:"container-foto animated roll-out-bottom"})
-      },6000)
+      },4000)
       this.setState({temporary})
       this.setState({name})
       console.log(temporary.length)
@@ -77,7 +77,7 @@ export default class Videotron extends Component {
         console.log(this.state.temporary)
         setInterval(
               ()=>this.gah()
-              ,6000)
+              ,4000)
     })
     socket.on("connect", () => {
         console.log("Connection Success")
@@ -166,7 +166,7 @@ export default class Videotron extends Component {
                 {this.state.open? 
                 
                 <div className={this.state.style} style={{alignItems:'center',textAlign:'center', width:'100%', display:"flex", justifyContent:'center', flexDirection:'column', }}>
-                  <div className="container-foto ">
+                  <div className="container-foto">
                     <div className="container-foto-img">
                       <img src={this.state.uri} alt="TEST" style={{width:'13vw', height:'18vw'}}/>
                     </div>
